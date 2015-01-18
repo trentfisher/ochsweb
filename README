@@ -1,9 +1,10 @@
+This is the Phil Ochs web site.  It started life as some text files on
+an ftp server around 1990.  I converted it into a web site (my first)
+sometime around 1992.  I've changed it rarely since 2000 and the last
+change was in 2010.
 
-This archive contains information about/by the late, great Phil Ochs.
-Got anything?  Send it to me!
+I considered turning it into a wiki, but that's too much work, so I'll
+put it here.  Feel free to fork and send me pull requests.
 
-There is a Phil Ochs mailing list, which you can subscribe to by
-sending a message with a body of "subscribe no-more-songs" to 
-majordomo@cs.pdx.edu.
-
-trent@cs.pdx.edu
+The web site can be found at http://www.cs.pdx.edu/~trent/ochs/
+(it's had that address since the beginning!)
