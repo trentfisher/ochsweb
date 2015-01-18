@@ -1,0 +1,61 @@
+#! /bin/sh
+# Generate hypertext menu from directory list
+echo "<HTML><HEAD>"
+echo "<TITLE>Phil Ochs Lyric Index</TITLE>"
+echo "</HEAD><BODY>"
+echo "<H1>Phil Ochs Lyric Index</H1>"
+# If there is a README file include that as plain text
+if [ -f $1/README ]; then
+    sed -e 's/^$/<P>/' $1/README
+fi
+# Now generate a list of links to files
+echo "<DIR>"
+for dir in $*
+do (
+    cd $dir
+    for file in * #.html *.txt
+    do 
+	if [ $file != "README" ]
+	then
+		echo -n "<LI><A HREF=\"./$dir/$file\">"
+#		echo -n `head -1 $file`
+		perl -ne 'print $1 if /<TITLE>(.*)<\/TITLE>/i;' $file
+#		echo -n $file
+		echo "</A>" 
+
+		# did phil write this one?
+		# <H3>By Phil Ochs</H3>
+		by=`perl -ne 'print $1 if (/<H3>By (.*)<\/H3>/i);' $file`
+		if [ -z "$by" ]
+		then
+			echo no author listed in $file 1>&2
+		elif [ "$by" != "Phil Ochs" ]
+		then
+			echo By $by
+		fi
+	
+		#anything interesting about this one?
+		if [ -z "`grep STATE: $file`" ]
+		then
+			echo no state information in $file 1>&2
+		fi
+ 		perl -ne '
+			if (/<!-- STATE:\s*(.*)\s*-->/) {
+				foreach $i (split(/\s+/, $1)) {
+					# push(@l, "") if ($i eq "lyrics");
+					push(@l, "chords") if ($i eq "chords");
+					push(@l, "notes") if ($i eq "notes");
+					push(@l, "unclear lyrics") if ($i eq "?");
+					push(@l, "no lyrics") if ($i eq "??");
+					push(@l, "poem/liner notes") if ($i eq "poem");
+					push(@l, "non album") if ($i eq "nonalbum");
+				}
+				print "(", join(", ", @l), ")\n" if (@l);
+			 }' $file
+	fi
+    done
+    )
+done
+echo "</DIR>"
+echo  index generated on `date`
+echo "</BODY></HTML>"
