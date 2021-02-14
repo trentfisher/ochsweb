@@ -1,3 +1,3 @@
 
 upload:
-	rsync -a --progress --exclude='*~' --exclude '.git' ./ cs.pdx.edu:public_html/ochs/
+	rsync -a --progress --exclude='*~' --exclude '.git' ./  websftp.cecs.pdx.edu:public_html/ochs/
